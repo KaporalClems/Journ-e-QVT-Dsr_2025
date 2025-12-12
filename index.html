@@ -101,6 +101,27 @@
             }
         }
 
+        /* NOUVEAU: Animation de l'impulsion de la flèche de footer */
+        @keyframes pulse-arrow {
+            0% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(5px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+        }
+        .pulsing-arrow {
+            display: inline-block;
+            animation: pulse-arrow 1.5s infinite ease-in-out;
+        }
+
+
         /* Application de l'effet dynamique au survol */
         .reveal-hidden:hover, .time-slot:hover {
             transform: scale(1.01); 
@@ -130,9 +151,13 @@
             text-align: center;
             padding: 1rem 0;
             font-size: 0.875rem; /* text-sm */
+            /* Ajout du flex pour centrer la flèche et le texte */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* NOUVEAU: Style pour le mini lecteur audio flottant */
+        /* Style pour le mini lecteur audio flottant */
         #music-player {
             position: fixed;
             bottom: 1rem;
@@ -163,6 +188,17 @@
                 height: 40px;
             }
         }
+        
+        /* Style pour la section Remerciements Spéciaux */
+        .thank-you-section {
+            background-color: #fefce8; /* Jaune très clair */
+            border-top: 3px solid #f97316; /* Orange 500 */
+            border-bottom: 3px solid #f97316;
+        }
+        .thank-you-item {
+            border: 1px solid #fde68a; /* Amber 200 */
+            background-color: #fffbeb; /* Amber 50 */
+        }
     </style>
 </head>
 <body class="p-4 sm:p-8">
@@ -175,11 +211,6 @@
 
     <!-- Mini Lecteur Audio Flottant et Discret -->
     <div id="music-player" class="bg-white rounded-full">
-        <!-- 
-            L'attribut 'loop' est conservé.
-            'autoplay' est retiré et le JS de lecture automatique a été supprimé 
-            pour se conformer aux politiques des navigateurs. L'utilisateur doit cliquer sur Play.
-        -->
         <audio controls loop id="bgMusic">
             <source src="https://github.com/KaporalClems/Journ-e-QVT-Dsr_2025/raw/fa1a29a2fa3973827846a30c2c0a834e2e5dbfdd/christmas-upbeat-257049.mp3" type="audio/mpeg">
             Votre navigateur ne supporte pas l'élément audio.
@@ -192,13 +223,15 @@
             <!-- Accent doré pour le fond -->
             <div class="absolute inset-0 bg-repeat opacity-10" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;15&quot; height=&quot;15&quot;><circle cx=&quot;7.5&quot; cy=&quot;7.5&quot; r=&quot;1&quot; fill=&quot;%23fef3c7&quot; /></svg>');"></div>
 
-            <!-- NOUVEAU: Bouton de Partage (Icone) -->
+            <!-- Bouton de Partage (Icone) -->
             <button id="openShareModalBtn" title="Partager le Programme (QR Code)"
                 class="action-icon-button absolute top-4 right-4 p-2 bg-white bg-opacity-20 hover:bg-opacity-40 rounded-full text-white transition duration-300 z-20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </button>
+            
+            <!-- REMOVED: Ancien bloc GIF -->
 
             <!-- Titre SVG animé au chargement de la page -->
             <svg class="w-full h-auto z-10 relative" viewBox="0 0 800 150" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,7 +252,17 @@
                     Édition de Fin d'Année
                 </text>
             </svg>
-
+            
+            <!-- NOUVEAU: Image GIF de lumières de Noël (demandée par l'utilisateur) -->
+            <div class="flex justify-center p-2 mt-4 z-10 relative">
+                <img 
+                    src="https://usagif.com/wp-content/uploads/gify/christmas-lights-transparent-background-13-usagif.gif" 
+                    alt="[Image GIF de guirlandes lumineuses de Noël animées]"
+                    class="w-full h-20 object-contain rounded-lg" 
+                    onerror="this.onerror=null;this.src='https://placehold.co/800x80/D32F2F/FFFFFF?text=GIF+de+Lumi%C3%A8res+Festives'"
+                >
+            </div>
+            
         </header>
 
         <!-- General Information (Warm background) - Élément révélé au scroll -->
@@ -228,6 +271,47 @@
                 Chères et chers collègues,
                 Nous avons le plaisir de vous présenter le programme détaillé de notre journée dédiée à la QVT.
             </p>
+
+            <!-- Carousel d'Images du Lieu - Élément révélé au scroll -->
+            <div id="imageCarousel" class="relative w-full mb-6 rounded-xl shadow-xl overflow-hidden reveal-hidden group" style="height: 300px;">
+                <!-- Conteneur des images (Flex pour le défilement horizontal) -->
+                <div id="carouselTrack" class="flex w-full h-full transition-transform duration-700 ease-in-out">
+                    
+                    <!-- Image 1 -->
+                    <div class="carousel-slide flex-shrink-0 w-full h-full">
+                        <img src="https://horizon-reunion.com/serve_picture/large/1613" 
+                             alt="[Image du lieu : Piscine de la Villa Couleur K'Fé]" 
+                             class="w-full h-full object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/800x400/D32F2F/FFFFFF?text=Photo+du+Lieu+indisponible';">
+                    </div>
+                    
+                    <!-- Image 2 -->
+                    <div class="carousel-slide flex-shrink-0 w-full h-full">
+                        <img src="https://www.com-saintpierre.com/data/Photos/OriginalPhoto/15875/1587533/1587533468/photo-couleurs-k-fe-saint-pierre-10.JPEG" 
+                             alt="[Image du lieu : Intérieur de la Villa Couleur K'Fé]" 
+                             class="w-full h-full object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/800x400/D32F2F/FFFFFF?text=Photo+du+Lieu+indisponible';">
+                    </div>
+                    
+                    <!-- Image 3 -->
+                    <div class="carousel-slide flex-shrink-0 w-full h-full">
+                        <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/72934474.jpg?k=5dc5bd09dacf801977704773b1c52875f31b77a3a7f5587576834ddf9871ae63&o=" 
+                             alt="[Image du lieu : Espace extérieur de la Villa Couleur K'Fé]" 
+                             class="w-full h-full object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/800x400/D32F2F/FFFFFF?text=Photo+du+Lieu+indisponible';">
+                    </div>
+                </div>
+                
+                <!-- Navigation Dots (Points Indicateurs) -->
+                <div id="carouselDots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <!-- Dots seront générés par JS -->
+                </div>
+                
+                <!-- Figcaption (Affichée en bas) -->
+                <div class="absolute bottom-0 left-0 w-full text-center text-xs italic text-white p-2 bg-black bg-opacity-40">
+                    Notre lieu d'accueil : La Villa Couleur K’Fé. Découvrez les espaces en images.
+                </div>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-medium">
                 
@@ -240,11 +324,11 @@
                     </div>
 
                     <!-- Bouton Ajouter à Google Agenda (Vert) -->
-                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Journ%C3%A9e%20Qualit%C3%A9%20de%20Vie%20au%20Travail%20%E2%80%93%20%C3%89dition%20de%20Fin%20d%27Ann%C3%A9e&dates=20251215T083000/20251215T160000&details=Programme%20d%C3%A9taill%C3%A9%20de%20la%20journ%C3%A9e%20QVT%20%28Yoga%20du%20Rire%2C%20Ateliers%20cr%C3%A9atifs%2C%20D%C3%A9jeuner%2C%20Apr%C3%A8s-midi%20r%C3%A9cr%C3%A9ative%29.%0A%0AAdresse%20:Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&location=Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&sf=true&output=xml" 
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Journ%C3%A9e%20Qualit%C3%A9%20de%20Vie%20au%20Travail%20%E2%80%93%20%C9dition%20de%20Fin%20d%27Ann%C3%A9e&dates=20251215T083000/20251215T160000&details=Programme%20d%C3%A9taill%C3%A9%20de%20la%20journ%C3%A9e%20QVT%20%28Yoga%20du%20Rire%2C%20Ateliers%20cr%C3%A9atifs%2C%20D%C3%A9jeuner%2C%20Apr%C3%A8s-midi%20r%C3%A9cr%C3%A9ative%29.%0A%0AAdresse%20:Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&location=Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&sf=true&output=xml" 
                        target="_blank" 
                        class="mt-2 py-2 px-4 bg-green-600 text-white font-bold rounded-full text-sm hover:bg-green-700 transition duration-300 flex items-center justify-center shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                         </svg>
                         Ajouter à l'Agenda
                     </a>
@@ -274,18 +358,15 @@
                 </div>
 
             </div>
-
-             <div class="mt-4 p-3 bg-yellow-100 rounded-lg border border-yellow-500 text-yellow-800 flex items-center">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.398 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                <p class="text-sm"><span class="font-bold">Alerte Devis :</span> Nous sommes en attente du devis définitif pour l'atelier Création de bougies parfumées de Noël.</p>
-            </div>
+            
+            <!-- REMOVED: Section des Partenaires/Logos (Déplacée dans une Modal) -->
         </section>
 
         <!-- Program Schedule - Élément révélé au scroll -->
         <section class="p-6 reveal-hidden">
             <h2 class="text-2xl font-bold text-red-800 mb-4 border-b-2 border-red-500 pb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 9 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Programme de la Journée
             </h2>
@@ -446,20 +527,78 @@
                         <p class="text-sm text-gray-700">Karaoké, accès à la piscine et Blind Test Musical.</p>
                     </div>
                 </div>
-
-                <!-- 16h00 : Fin (Non-cliquable) -->
-                <div class="time-slot p-4 bg-gray-200 rounded-lg border-l-4 border-gray-500 reveal-hidden">
-                    <div class="w-28 font-bold text-gray-800 flex-shrink-0">16h00</div>
-                    <div>
-                        <p class="font-semibold text-xl text-gray-900">Fin de la Journée QVT</p>
-                    </div>
+            </div>
+            
+            <!-- 16h00 : Fin (Non-cliquable) -->
+            <div class="time-slot p-4 bg-gray-200 rounded-lg border-l-4 border-gray-500 reveal-hidden mt-4">
+                <div class="w-28 font-bold text-gray-800 flex-shrink-0">16h00</div>
+                <div>
+                    <p class="font-semibold text-xl text-gray-900">Fin de la Journée QVT</p>
                 </div>
-
             </div>
         </section>
 
+        <!-- SECTION : Remerciements Spéciaux -->
+        <section class="p-6 thank-you-section reveal-hidden">
+            <h3 class="text-xl font-bold mb-4 text-orange-700 flex items-center border-b border-orange-300 pb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                Remerciements Spéciaux aux Intervenants
+            </h3>
+            <p class="text-gray-700 mb-4 italic">Notre journée ne serait pas possible sans l'engagement et l'expertise de nos animateurs. Un immense merci à :</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- 1. Yoga du Rire -->
+                <div class="p-4 rounded-lg shadow-sm thank-you-item flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-red-600 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <p class="font-bold text-gray-900">Ahnolia et Mélissa BEDEL</p>
+                        <p class="text-sm text-gray-600">Pour la session énergisante de **Yoga du Rire**.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Bouquets de Noël -->
+                <div class="p-4 rounded-lg shadow-sm thank-you-item flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-green-600 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <div>
+                        <p class="font-bold text-gray-900">Patricia Fleurs</p>
+                        <p class="text-sm text-gray-600">Pour l'atelier créatif de **Composition de bouquets de Noël**.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Bougies Parfumées -->
+                <div class="p-4 rounded-lg shadow-sm thank-you-item flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-red-600 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <div>
+                        <p class="font-bold text-gray-900">Les Savons dans ma Bulle</p>
+                        <p class="text-sm text-gray-600">Pour la création artisanale de **bougies parfumées**.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Trio Métiss -->
+                <div class="p-4 rounded-lg shadow-sm thank-you-item flex items-start">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-blue-600 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6a2 2 0 012-2h2a2 2 0 012 2v13M9 19H7a2 2 0 00-2 2h14a2 2 0 00-2-2h-2M9 19a2 2 0 00-2 2h10a2 2 0 00-2-2m-8-7h.01M16 12h.01" />
+                    </svg>
+                    <div>
+                        <p class="font-bold text-gray-900">Trio Métiss</p>
+                        <p class="text-sm text-gray-600">Pour l'ambiance musicale de notre **déjeuner de fête**.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
         <!-- À Prévoir (Festive Green Footer) -->
-        <section class="p-6 bg-green-700 text-white rounded-b-xl reveal-hidden">
+        <section class="p-6 bg-green-700 text-white reveal-hidden">
             <h3 class="text-xl font-bold mb-2 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 0a2 2 0 100-4 2 2 0 000 4z" />
@@ -473,9 +612,15 @@
             </ul>
         </section>
 
-        <!-- Pied de page de droit d'auteur (nouveau) -->
-        <footer class="footer-style rounded-b-xl">
-            &copy; 2025 Tous droits réservés | Destination sud Réunion
+        <!-- Pied de page de droit d'auteur (nouveau) - CLICkABLE -->
+        <footer id="openPartnersModalBtn" class="footer-style rounded-b-xl cursor-pointer hover:bg-zinc-800 transition duration-300">
+            <!-- Flèche animée -->
+            <span class="pulsing-arrow mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </span>
+            <span>© 2025 Tous droits réservés | Destination Sud Réunion</span>
         </footer>
 
     </div>
@@ -525,6 +670,73 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal des Partenaires -->
+    <div id="partnersModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-300 scale-95 md:scale-100">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4 border-b pb-2">
+                    <h3 class="text-2xl font-bold text-red-800 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 017.343 5.343l1.414 1.414a6 6 0 108.484 8.484l1.414 1.414zm-1.414 1.414L10 10m6.364 6.364L10 10"/>
+                        </svg>
+                        Nos Partenaires
+                    </h3>
+                    <button id="closePartnersModalBtn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                
+                <!-- Contenu des Partenaires -->
+                <p class="text-gray-700 mb-6 text-center">Un grand merci à ceux qui contribuent à cette journée exceptionnelle.</p>
+
+                <!-- 
+                    Grille ajustée pour 3 colonnes sur desktop (lg:grid-cols-3) pour centrer les 3 logos.
+                -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-items-center p-6 bg-gray-50 rounded-lg border border-red-200">
+                    
+                    <!-- Logo 1: Destination Sud Réunion (MODIFIÉ) -->
+                    <div class="w-full max-w-[200px] h-auto">
+                        <a href="https://srias.re/" target="_blank" title="Visiter le site Destination Sud Réunion">
+                            <img 
+                                src="https://www.sudreuniontourisme.fr/fileadmin/user_upload/Sud/logo2.png" 
+                                alt="[Image du logo DSR]" 
+                                class="w-full h-auto object-contain transition duration-300 transform hover:scale-105"
+                                onerror="this.onerror=null; this.src='https://placehold.co/200x80/FFCDD2/D32F2F?text=DSR+Logo'"
+                            >
+                        </a>
+                    </div>
+                    
+                    <!-- Logo 2: Villa Couleur Kfe -->
+                    <div class="w-full max-w-[200px] h-auto">
+                        <a href="https://couleurs-kfe.com/" target="_blank" title="Visiter le site Villa Couleur K’Fé">
+                            <img 
+                                src="https://couleurs-kfe.com/wp-content/uploads/2024/07/Kfe1.jpg" 
+                                alt="[Image du logo Villa Couleur K’Fé]" 
+                                class="w-full h-auto object-contain transition duration-300 transform hover:scale-105"
+                                onerror="this.onerror=null; this.src='https://placehold.co/200x80/C8E6C9/388E3C?text=Couleur+Kfe+Logo'"
+                            >
+                        </a>
+                    </div>
+                    
+                    <!-- Logo 3: Emulsion Cocktails -->
+                    <div class="w-full max-w-[200px] h-auto">
+                        <a href="https://emulsion-cocktails.re/" target="_blank" title="Visiter le site Emulsion Cocktails">
+                            <img 
+                                src="https://emulsion-cocktails.re/wp-content/uploads/2025/07/Emulsion_Logo_horizontal_Colo_2.png" 
+                                alt="[Image du logo Emulsion Cocktails]" 
+                                class="w-full h-auto object-contain transition duration-300 transform hover:scale-105"
+                                onerror="this.onerror=null; this.src='https://placehold.co/200x80/B3E5FC/0277BD?text=Emulsion+Cocktails'"
+                            >
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-b-xl">
+                <p class="text-xs text-gray-500 italic text-center">Cliquez sur un logo pour visiter le site de notre partenaire.</p>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -532,13 +744,78 @@
         const QR_CODE_URL = "https://kaporalclems.github.io/Journ-e-QVT-Dsr_2025/";
         let qrcodeInstance = null; // Variable pour stocker l'instance du QR code
 
+        // --- Carousel Logic ---
+        const startCarousel = () => {
+            const track = document.getElementById('carouselTrack');
+            const dotsContainer = document.getElementById('carouselDots');
+            const slides = document.querySelectorAll('.carousel-slide');
+            const totalSlides = slides.length;
+            let currentIndex = 0;
+            const intervalTime = 5000; // 5 secondes par slide
+            let carouselInterval;
+
+            if (totalSlides === 0) return;
+
+            // 1. Création des points de navigation
+            slides.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white', 'bg-opacity-50', 'hover:bg-opacity-80', 'transition', 'duration-300');
+                dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetInterval();
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = dotsContainer.querySelectorAll('button');
+
+            // 2. Fonctions de Navigation
+            const updateDots = () => {
+                dots.forEach((dot, index) => {
+                    dot.classList.remove('bg-opacity-100');
+                    if (index === currentIndex) {
+                        dot.classList.add('bg-opacity-100');
+                    }
+                });
+            };
+
+            const goToSlide = (index) => {
+                if (index < 0) {
+                    currentIndex = totalSlides - 1;
+                } else if (index >= totalSlides) {
+                    currentIndex = 0;
+                } else {
+                    currentIndex = index;
+                }
+                const offset = -currentIndex * 100;
+                track.style.transform = `translateX(${offset}%)`;
+                updateDots();
+            };
+
+            const nextSlide = () => {
+                goToSlide(currentIndex + 1);
+            };
+
+            // 3. Logique d'Auto-play
+            const startInterval = () => {
+                carouselInterval = setInterval(nextSlide, intervalTime);
+            };
+
+            const resetInterval = () => {
+                clearInterval(carouselInterval);
+                startInterval();
+            };
+
+            // État initial
+            updateDots();
+            startInterval();
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- 0. NOTE sur la lecture audio ---
-            // L'appel audioPlayer.play() a été retiré ici car il est bloqué par la politique 
-            // d'autoplay des navigateurs. L'utilisateur doit interagir directement avec 
-            // les contrôles du lecteur audio flottant.
-
+            // Démarrage du Carousel
+            startCarousel();
 
             // --- 1. Animation de Révélation au Scroll (Intersection Observer) ---
             const observer = new IntersectionObserver((entries) => {
@@ -563,7 +840,6 @@
             
             /**
              * Anime le dessin d'un chemin de texte SVG.
-             * Utilise les durées de transition définies en CSS (2.5s pour le trait, 1.2s pour le remplissage).
              * @param {string} id L'ID de l'élément <text> SVG.
              * @param {number} startDelayMS Le délai avant le début du dessin (ms).
              * @param {number} fillDelayMS Le délai, après le début du dessin, pour commencer le remplissage (ms).
@@ -585,7 +861,6 @@
                     textPath.classList.add('drawn');
                     
                     // 3. Révéler le remplissage après le délai spécifié
-                    // Cela donne l'effet de remplissage doux qui suit le tracé.
                     setTimeout(() => {
                         textPath.classList.add('filled');
                     }, fillDelayMS); 
@@ -594,11 +869,9 @@
             };
 
             // Ligne 1 : "Journée Qualité de Vie au Travail" 
-            // Démarrage : 500ms | Remplissage : 1800ms après le début du tracé
             animateTitle('svg-title-1', 500, 1800); 
             
             // Ligne 2 : "Édition de Fin d'Année" 
-            // Démarrage : 3000ms (après que la Ligne 1 ait fini son tracé) | Remplissage : 1500ms après son propre tracé
             animateTitle('svg-title-2', 3000, 1500); 
 
             // --- 3. Gestion de la Modal de Zoom (Détails du Programme) ---
@@ -609,23 +882,19 @@
             const closeModalBtn = document.getElementById('closeModalBtn');
             const clickableItems = document.querySelectorAll('.clickable-item');
 
-            // Fonction pour ouvrir la modal de détails
             const openDetailModal = (time, title, details) => {
                 modalTime.textContent = time;
                 modalTitle.textContent = title;
-                // Utiliser innerHTML et remplacer les sauts de ligne pour le formatage dans la modal
                 modalDetails.innerHTML = details.replace(/\n/g, '<br>'); 
                 detailModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // Empêche le scroll en arrière-plan
+                document.body.style.overflow = 'hidden'; 
             };
 
-            // Fonction pour fermer la modal de détails
             const closeDetailModal = () => {
                 detailModal.classList.add('hidden');
-                document.body.style.overflow = ''; // Rétablit le scroll
+                document.body.style.overflow = ''; 
             };
 
-            // Attacher l'événement de clic à chaque élément du programme
             clickableItems.forEach(item => {
                 item.addEventListener('click', () => {
                     const time = item.dataset.time || 'Non spécifié';
@@ -635,9 +904,7 @@
                 });
             });
 
-            // Attacher les événements de fermeture de la modal de détails
             closeModalBtn.addEventListener('click', closeDetailModal);
-            // Fermer en cliquant sur le fond (si le clic n'est pas sur le contenu de la modal)
             detailModal.addEventListener('click', (e) => {
                 if (e.target === detailModal) {
                     closeDetailModal();
@@ -649,56 +916,70 @@
             const openShareModalBtn = document.getElementById('openShareModalBtn');
             const closeShareModalBtn = document.getElementById('closeShareModalBtn');
 
-            // Fonction pour générer le QR Code
             const generateQRCode = () => {
                 const qrcodeContainer = document.getElementById('qrcode');
                 
-                // Si l'instance existe déjà, ne rien faire
                 if (qrcodeInstance) return;
 
-                // S'assurer que le conteneur est vide avant de créer
                 qrcodeContainer.innerHTML = ''; 
 
-                // Génération de la nouvelle instance
                 qrcodeInstance = new QRCode(qrcodeContainer, {
                     text: QR_CODE_URL,
                     width: 200,
                     height: 200,
-                    colorDark : "#880000", // Rouge foncé
+                    colorDark : "#880000", 
                     colorLight : "#ffffff",
                     correctLevel : QRCode.CorrectLevel.H
                 });
             };
 
-            // Fonction pour ouvrir la modal de partage
             const openShareModal = () => {
                 shareModal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
-                // Génère le QR code seulement la première fois que la modale est ouverte
                 if (!qrcodeInstance) {
-                    // Délai pour s'assurer que la modale est visible et le DOM stable
                     setTimeout(generateQRCode, 10); 
                 }
             };
 
-            // Fonction pour fermer la modal de partage
             const closeShareModal = () => {
                 shareModal.classList.add('hidden');
                 document.body.style.overflow = '';
             };
 
-            // Attacher l'événement de clic au bouton de partage
             openShareModalBtn.addEventListener('click', openShareModal);
             closeShareModalBtn.addEventListener('click', closeShareModal);
             
-            // Fermer en cliquant sur le fond de la modal de partage
             shareModal.addEventListener('click', (e) => {
                 if (e.target === shareModal) {
                     closeShareModal();
                 }
             });
+            
+            // --- 5. Gestion de la Modal des Partenaires ---
+            const partnersModal = document.getElementById('partnersModal');
+            const openPartnersModalBtn = document.getElementById('openPartnersModalBtn');
+            const closePartnersModalBtn = document.getElementById('closePartnersModalBtn');
 
-            // Fermer avec la touche ESC (applique aux deux modales)
+            const openPartnersModal = () => {
+                partnersModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closePartnersModal = () => {
+                partnersModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            };
+
+            openPartnersModalBtn.addEventListener('click', openPartnersModal);
+            closePartnersModalBtn.addEventListener('click', closePartnersModal);
+            
+            partnersModal.addEventListener('click', (e) => {
+                if (e.target === partnersModal) {
+                    closePartnersModal();
+                }
+            });
+
+            // Fermer avec la touche ESC
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     if (!detailModal.classList.contains('hidden')) {
@@ -706,6 +987,9 @@
                     }
                     if (!shareModal.classList.contains('hidden')) {
                         closeShareModal();
+                    }
+                    if (!partnersModal.classList.contains('hidden')) {
+                        closePartnersModal();
                     }
                 }
             });
