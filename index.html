@@ -114,13 +114,13 @@
         }
 
         /* Classe pour les boutons secondaires (Agenda, Partage) */
-        .secondary-button {
-             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-             transition: all 0.2s ease-in-out;
+        .action-icon-button {
+            transition: all 0.2s ease-in-out;
+            filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
         }
-        .secondary-button:hover {
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-             transform: translateY(-1px);
+        .action-icon-button:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.3));
         }
         
         /* Style du pied de page */
@@ -130,6 +130,38 @@
             text-align: center;
             padding: 1rem 0;
             font-size: 0.875rem; /* text-sm */
+        }
+
+        /* NOUVEAU: Style pour le mini lecteur audio flottant */
+        #music-player {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 150px; /* Largeur réduite pour un lecteur discret */
+            height: 30px; /* Hauteur réduite */
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 9999px; /* rounded-full */
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        #music-player:hover {
+            width: 250px; /* S'élargit au survol pour mieux voir les contrôles */
+        }
+        
+        /* Assure que l'élément audio remplit le conteneur */
+        #music-player audio {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Masquer la source (texte) du lecteur sur les petits écrans pour économiser de l'espace */
+        @media (max-width: 640px) {
+            #music-player {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -141,11 +173,32 @@
         Votre navigateur ne supporte pas la balise vidéo.
     </video>
 
+    <!-- Mini Lecteur Audio Flottant et Discret -->
+    <div id="music-player" class="bg-white rounded-full">
+        <!-- 
+            L'attribut 'loop' est conservé.
+            'autoplay' est retiré et le JS de lecture automatique a été supprimé 
+            pour se conformer aux politiques des navigateurs. L'utilisateur doit cliquer sur Play.
+        -->
+        <audio controls loop id="bgMusic">
+            <source src="https://github.com/KaporalClems/Journ-e-QVT-Dsr_2025/raw/fa1a29a2fa3973827846a30c2c0a834e2e5dbfdd/christmas-upbeat-257049.mp3" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'élément audio.
+        </audio>
+    </div>
+
     <div class="max-w-4xl mx-auto bg-white rounded-xl overflow-hidden schedule-card">
         <!-- Header (Festive Gradient: Deep Red to Maroon) -->
         <header class="bg-gradient-to-br from-red-900 via-red-700 to-red-900 p-8 text-white text-center rounded-t-xl relative overflow-hidden">
             <!-- Accent doré pour le fond -->
             <div class="absolute inset-0 bg-repeat opacity-10" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;15&quot; height=&quot;15&quot;><circle cx=&quot;7.5&quot; cy=&quot;7.5&quot; r=&quot;1&quot; fill=&quot;%23fef3c7&quot; /></svg>');"></div>
+
+            <!-- NOUVEAU: Bouton de Partage (Icone) -->
+            <button id="openShareModalBtn" title="Partager le Programme (QR Code)"
+                class="action-icon-button absolute top-4 right-4 p-2 bg-white bg-opacity-20 hover:bg-opacity-40 rounded-full text-white transition duration-300 z-20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
 
             <!-- Titre SVG animé au chargement de la page -->
             <svg class="w-full h-auto z-10 relative" viewBox="0 0 800 150" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -189,7 +242,7 @@
                     <!-- Bouton Ajouter à Google Agenda (Vert) -->
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Journ%C3%A9e%20Qualit%C3%A9%20de%20Vie%20au%20Travail%20%E2%80%93%20%C3%89dition%20de%20Fin%20d%27Ann%C3%A9e&dates=20251215T083000/20251215T160000&details=Programme%20d%C3%A9taill%C3%A9%20de%20la%20journ%C3%A9e%20QVT%20%28Yoga%20du%20Rire%2C%20Ateliers%20cr%C3%A9atifs%2C%20D%C3%A9jeuner%2C%20Apr%C3%A8s-midi%20r%C3%A9cr%C3%A9ative%29.%0A%0AAdresse%20:Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&location=Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&sf=true&output=xml" 
                        target="_blank" 
-                       class="secondary-button mt-2 py-2 px-4 bg-green-600 text-white font-bold rounded-full text-sm hover:bg-green-700 transition duration-300 flex items-center justify-center shadow-lg">
+                       class="mt-2 py-2 px-4 bg-green-600 text-white font-bold rounded-full text-sm hover:bg-green-700 transition duration-300 flex items-center justify-center shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                         </svg>
@@ -219,15 +272,6 @@
 
                     <p class="text-xs italic mt-2 text-red-600">Merci de vous rendre directement sur place.</p>
                 </div>
-                
-                <!-- Nouveau Bouton de Partage (Placez-le à côté des autres informations importantes) -->
-                <button id="openShareModalBtn"
-                    class="secondary-button mt-4 md:mt-0 col-span-3 md:col-span-1 py-3 px-4 bg-red-600 text-white font-bold rounded-full text-sm hover:bg-red-700 transition duration-300 flex items-center justify-center shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Partager le Programme (QR Code)
-                </button>
 
             </div>
 
@@ -455,14 +499,14 @@
         </div>
     </div>
     
-    <!-- NOUVEAU: Modal de Partage (QR Code) -->
+    <!-- Modal de Partage (QR Code) -->
     <div id="shareModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
         <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full transform transition-all duration-300 scale-95 md:scale-100">
             <div class="p-6">
                 <div class="flex justify-between items-start mb-4 border-b pb-2">
                     <h3 class="text-xl font-bold text-red-800 flex items-center">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         Partager le Programme
                     </h3>
@@ -490,6 +534,12 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             
+            // --- 0. NOTE sur la lecture audio ---
+            // L'appel audioPlayer.play() a été retiré ici car il est bloqué par la politique 
+            // d'autoplay des navigateurs. L'utilisateur doit interagir directement avec 
+            // les contrôles du lecteur audio flottant.
+
+
             // --- 1. Animation de Révélation au Scroll (Intersection Observer) ---
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
