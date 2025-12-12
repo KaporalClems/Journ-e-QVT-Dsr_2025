@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programme - Journée Qualité de Vie au Travail (QVT) 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Librairie pour la génération du QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <!-- Chargement de la police pour le titre (Pacifico) en plus d'Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
     <style>
@@ -62,7 +65,7 @@
             fill: white !important;
         }
 
-        /* --- Styles pour l'animation de révélation au scroll des sections (inchangée) --- */
+        /* --- Styles pour l'animation de révélation au scroll des sections --- */
 
         .reveal-hidden {
             opacity: 0;
@@ -110,13 +113,13 @@
             animation: pulse-gps 1.8s infinite;
         }
 
-        /* Classe pour le bouton Ajouter à l'Agenda */
-        .calendar-button {
-             box-shadow: 0 2px 4px rgba(22, 101, 52, 0.4);
+        /* Classe pour les boutons secondaires (Agenda, Partage) */
+        .secondary-button {
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
              transition: all 0.2s ease-in-out;
         }
-        .calendar-button:hover {
-             box-shadow: 0 4px 8px rgba(22, 101, 52, 0.6);
+        .secondary-button:hover {
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
              transform: translateY(-1px);
         }
         
@@ -186,7 +189,7 @@
                     <!-- Bouton Ajouter à Google Agenda (Vert) -->
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Journ%C3%A9e%20Qualit%C3%A9%20de%20Vie%20au%20Travail%20%E2%80%93%20%C3%89dition%20de%20Fin%20d%27Ann%C3%A9e&dates=20251215T083000/20251215T160000&details=Programme%20d%C3%A9taill%C3%A9%20de%20la%20journ%C3%A9e%20QVT%20%28Yoga%20du%20Rire%2C%20Ateliers%20cr%C3%A9atifs%2C%20D%C3%A9jeuner%2C%20Apr%C3%A8s-midi%20r%C3%A9cr%C3%A9ative%29.%0A%0AAdresse%20:Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&location=Villa%20Couleur%20K%E2%80%99F%C3%A9%20%E2%80%93%2045%20all%C3%A9e%20Jacquot%2C%2097430%20Saint-Pierre&sf=true&output=xml" 
                        target="_blank" 
-                       class="calendar-button mt-2 py-2 px-4 bg-green-600 text-white font-bold rounded-full text-sm hover:bg-green-700 transition duration-300 flex items-center justify-center shadow-lg">
+                       class="secondary-button mt-2 py-2 px-4 bg-green-600 text-white font-bold rounded-full text-sm hover:bg-green-700 transition duration-300 flex items-center justify-center shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                         </svg>
@@ -216,6 +219,16 @@
 
                     <p class="text-xs italic mt-2 text-red-600">Merci de vous rendre directement sur place.</p>
                 </div>
+                
+                <!-- Nouveau Bouton de Partage (Placez-le à côté des autres informations importantes) -->
+                <button id="openShareModalBtn"
+                    class="secondary-button mt-4 md:mt-0 col-span-3 md:col-span-1 py-3 px-4 bg-red-600 text-white font-bold rounded-full text-sm hover:bg-red-700 transition duration-300 flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Partager le Programme (QR Code)
+                </button>
+
             </div>
 
              <div class="mt-4 p-3 bg-yellow-100 rounded-lg border border-yellow-500 text-yellow-800 flex items-center">
@@ -228,7 +241,7 @@
         <section class="p-6 reveal-hidden">
             <h2 class="text-2xl font-bold text-red-800 mb-4 border-b-2 border-red-500 pb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 9 0118 0z" />
                 </svg>
                 Programme de la Journée
             </h2>
@@ -237,10 +250,22 @@
             <div class="space-y-4">
 
                 <!-- 8h30 – 9h30 : Petit déjeuner -->
-                <div class="time-slot p-4 bg-gray-50 rounded-lg border-l-4 border-red-500 hover:bg-gray-100 transition duration-150 reveal-hidden">
+                <div class="time-slot p-4 bg-gray-50 rounded-lg border-l-4 border-red-500 hover:bg-gray-100 transition duration-150 reveal-hidden clickable-item cursor-pointer"
+                     data-time="8h30 – 9h30" 
+                     data-title="Petit déjeuner d'accueil" 
+                     data-details="Un moment d'échange convivial pour démarrer la journée tous ensemble avant le lancement des activités.">
                     <div class="w-28 font-extrabold text-red-800 flex-shrink-0">8h30 – 9h30</div>
                     <div>
-                        <p class="font-semibold text-lg">Petit déjeuner d'accueil</p>
+                        <p class="font-semibold text-lg flex items-center">
+                            <!-- Icône Petit-déjeuner / Tasse -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                                <line x1="6" x2="18" y1="2" y2="2"/>
+                                <line x1="6" x2="18" y1="5" y2="5"/>
+                            </svg>
+                            Petit déjeuner d'accueil
+                        </p>
                         <p class="text-sm text-gray-600">Moment d'échange convivial pour démarrer la journée.</p>
                     </div>
                 </div>
@@ -248,10 +273,20 @@
 
 
                 <!-- 9h35 – 10h05 : Yoga du rire -->
-                <div class="time-slot p-4 bg-red-100 rounded-lg border-l-4 border-red-700 hover:bg-red-200 transition duration-150 reveal-hidden">
+                <div class="time-slot p-4 bg-red-100 rounded-lg border-l-4 border-red-700 hover:bg-red-200 transition duration-150 reveal-hidden clickable-item cursor-pointer"
+                     data-time="9h35 – 10h05"
+                     data-title="Atelier Yoga du rire (Collectif)"
+                     data-details="Une session dynamique de 30 minutes pour relâcher les tensions et booster votre énergie par le rire. Animé par Ahnolia et Mélissa BEDEL, coach de vie.">
                      <div class="w-28 font-extrabold text-red-800 flex-shrink-0">9h35 – 10h05</div>
                     <div>
-                        <p class="font-semibold text-lg">Atelier Yoga du rire</p>
+                        <p class="font-semibold text-lg flex items-center">
+                             <!-- Icône Rire / Smiley -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-700" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 17a5 5 0 0 1-5-5 5 5 0 0 1 10 0 5 5 0 0 1-5 5z"/>
+                            </svg>
+                            Atelier Yoga du rire
+                        </p>
                         <p class="text-sm text-red-700 italic">Collectif (30 min)</p>
                         <p class="text-xs text-gray-700">Animé par **Ahnolia** et **Mélissa BEDEL**, coach de vie.</p>
                     </div>
@@ -259,8 +294,20 @@
                 <p class="text-xs text-center text-gray-400 italic">-- 5 min de pause --</p>
 
                 <!-- 10h10 – 11h40 : Ateliers en rotation -->
-                <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-700 shadow-md reveal-hidden">
-                    <div class="font-extrabold text-green-900 mb-2 text-lg">10h10 – 11h40 : Ateliers en Rotation (Groupes)</div>
+                <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-700 shadow-md reveal-hidden clickable-item cursor-pointer"
+                     data-time="10h10 – 11h40"
+                     data-title="Ateliers Créatifs en Rotation"
+                     data-details="Les participants seront répartis en deux groupes pour découvrir deux activités créatives de 45 minutes chacune :
+                     1. **Composition de bouquets de Noël** avec Patricia Fleurs.
+                     2. **Création de bougies parfumées de Noël** avec Les Savons dans ma Bulle.
+                     Un système de roulement est prévu pour que chaque participant accède aux deux activités.">
+                    <div class="font-extrabold text-green-900 mb-2 text-lg flex items-center">
+                         <!-- Icône Ateliers Créatifs (Palette) -->
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-green-700" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19V7M5 12h14M8 15l-3-3 3-3M16 9l3 3-3 3"/>
+                        </svg>
+                        10h10 – 11h40 : Ateliers en Rotation (Groupes)
+                    </div>
                     <p class="text-sm mb-3 text-gray-700 italic font-semibold flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.836 5l1.547-2m-6.046 2L9 10m5.955 4l1.493-2.986M9 10h-2m-7 0h2m7 0h2" />
@@ -269,12 +316,23 @@
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                        <div class="p-3 bg-white rounded-md border-2 border-green-400 shadow-sm reveal-hidden">
-                            <p class="font-semibold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Atelier Composition de bouquets de Noël</p>
+                        <div class="p-3 bg-white rounded-md border-2 border-green-400 shadow-sm">
+                            <p class="font-semibold text-gray-800 flex items-center">
+                                <!-- Icône Fleurs -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2v20M17 12H7M15 7s1 5-3 5-3-5-3-5M9 17s1-5 3-5 3 5 3 5"/>
+                                </svg>
+                                Atelier Composition de bouquets de Noël</p>
                             <p class="text-xs text-gray-600">Animé par **Patricia Fleurs**.</p>
                         </div>
-                        <div class="p-3 bg-white rounded-md border-2 border-green-400 shadow-sm reveal-hidden">
-                            <p class="font-semibold text-gray-800 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>Atelier Création de bougies parfumées</p>
+                        <div class="p-3 bg-white rounded-md border-2 border-green-400 shadow-sm">
+                            <p class="font-semibold text-gray-800 flex items-center">
+                                <!-- Icône Bougie -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 19H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2M17 19h2a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M15 22V2m-3 20V2m-3 0v20"/>
+                                    <path d="M12 5h.01M12 9h.01M12 13h.01M12 17h.01"/>
+                                </svg>
+                                Atelier Création de bougies parfumées</p>
                             <p class="text-xs text-gray-600">Avec **Les Savons dans ma Bulle**.</p>
                         </div>
                     </div>
@@ -283,10 +341,22 @@
 
 
                 <!-- 11h20 – 12h00 : Cocktail de Noël -->
-                <div class="time-slot p-4 bg-red-100 rounded-lg border-l-4 border-red-700 hover:bg-red-200 transition duration-150 reveal-hidden">
+                <div class="time-slot p-4 bg-red-100 rounded-lg border-l-4 border-red-700 hover:bg-red-200 transition duration-150 reveal-hidden clickable-item cursor-pointer"
+                     data-time="11h20 – 12h00"
+                     data-title="Atelier Cocktail de Noël (Collectif)"
+                     data-details="Découvrez l'art de la mixologie festive et préparez ensemble un cocktail (avec ou sans alcool) aux saveurs de Noël.">
                     <div class="w-28 font-extrabold text-red-800 flex-shrink-0">11h20 – 12h00</div>
                     <div>
-                        <p class="font-semibold text-lg">Atelier Cocktail de Noël</p>
+                        <p class="font-semibold text-lg flex items-center">
+                            <!-- Icône Cocktail -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-700" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22a7 7 0 0 0 7-7c0-3.87-3.87-7-7-7s-7 3.13-7 7a7 7 0 0 0 7 7z"/>
+                                <path d="M12 15h.01"/>
+                                <path d="M12 12V2"/>
+                                <path d="M16 5l-4-3-4 3"/>
+                            </svg>
+                            Atelier Cocktail de Noël
+                        </p>
                         <p class="text-sm text-red-700 italic">Collectif (40 min)</p>
                     </div>
                 </div>
@@ -294,24 +364,46 @@
 
 
                 <!-- 12h00 – 14h00 : Déjeuner -->
-                <div class="time-slot p-4 bg-gray-50 rounded-lg border-l-4 border-red-500 hover:bg-gray-100 transition duration-150 reveal-hidden">
+                <div class="time-slot p-4 bg-gray-50 rounded-lg border-l-4 border-red-500 hover:bg-gray-100 transition duration-150 reveal-hidden clickable-item cursor-pointer"
+                     data-time="12h00 – 14h00"
+                     data-title="Déjeuner de Fête"
+                     data-details="Un repas gourmand et convivial pour célébrer l'esprit de fin d'année, rythmé par l'ambiance musicale assurée par le Trio Métiss.">
                     <div class="w-28 font-extrabold text-red-800 flex-shrink-0">12h00 – 14h00</div>
                     <div>
-                        <p class="font-semibold text-lg">Déjeuner de Fête</p>
+                        <p class="font-semibold text-lg flex items-center">
+                            <!-- Icône Repas / Assiette -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 11V5a3 3 0 0 0-3-3v0a3 3 0 0 0-3 3v6"/>
+                                <path d="M8 15h8"/>
+                                <path d="M12 21a9 9 0 0 0 0-18"/>
+                                <path d="M12 21a9 9 0 0 1 0-18"/>
+                            </svg>
+                            Déjeuner de Fête
+                        </p>
                         <p class="text-sm text-gray-600">Ambiance musicale assurée par le **Trio Métiss**.</p>
                     </div>
                 </div>
 
                 <!-- 14h00 – 16h00 : Après-midi récréative -->
-                <div class="time-slot p-4 bg-blue-100 rounded-lg border-l-4 border-blue-600 hover:bg-blue-200 transition duration-150 reveal-hidden">
+                <div class="time-slot p-4 bg-blue-100 rounded-lg border-l-4 border-blue-600 hover:bg-blue-200 transition duration-150 reveal-hidden clickable-item cursor-pointer"
+                     data-time="14h00 – 16h00"
+                     data-title="Après-midi Détente & Divertissement"
+                     data-details="Profitez de deux heures de loisirs : Karaoké, accès libre à la piscine (pensez à votre maillot!) et un Blind Test Musical pour tester vos connaissances.">
                     <div class="w-28 font-extrabold text-blue-800 flex-shrink-0">14h00 – 16h00</div>
                     <div>
-                        <p class="font-semibold text-lg">Après-midi Détente & Divertissement</p>
+                        <p class="font-semibold text-lg flex items-center">
+                            <!-- Icône Détente / Loisirs -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-700" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 10a8 8 0 0 0-16 0V5a2 2 0 0 1 2-2h3"/>
+                                <path d="M12 21.5V10M17 14h-10a5 5 0 0 1-5-5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5a5 5 0 0 1-5 5z"/>
+                            </svg>
+                            Après-midi Détente & Divertissement
+                        </p>
                         <p class="text-sm text-gray-700">Karaoké, accès à la piscine et Blind Test Musical.</p>
                     </div>
                 </div>
 
-                <!-- 16h00 : Fin -->
+                <!-- 16h00 : Fin (Non-cliquable) -->
                 <div class="time-slot p-4 bg-gray-200 rounded-lg border-l-4 border-gray-500 reveal-hidden">
                     <div class="w-28 font-bold text-gray-800 flex-shrink-0">16h00</div>
                     <div>
@@ -333,6 +425,7 @@
             <ul class="list-disc pl-5 text-sm">
                 <li>Toutes les activités sont prévues sur place (pas de déplacement externe).</li>
                 <li>N'oubliez pas d'apporter **un tapis ou une serviette** pour l’atelier Yoga du rire.</li>
+                <li>Si vous prévoyez de profiter de l'accès à la piscine l'après-midi, n'oubliez pas votre maillot de bain.</li>
             </ul>
         </section>
 
@@ -343,7 +436,58 @@
 
     </div>
 
+    <!-- Modal de Détails (Zoom) - Structure inchangée -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-300 scale-95 md:scale-100">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4 border-b pb-2">
+                    <h3 id="modalTitle" class="text-2xl font-extrabold text-red-800"></h3>
+                    <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <p id="modalTime" class="text-lg font-semibold text-gray-600 mb-3"></p>
+                <p id="modalDetails" class="text-gray-700 whitespace-pre-wrap leading-relaxed"></p>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-b-xl">
+                <p class="text-xs text-gray-500 italic text-center">Cliquez en dehors de cette fenêtre, sur la croix ou appuyez sur ESC pour fermer.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NOUVEAU: Modal de Partage (QR Code) -->
+    <div id="shareModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full transform transition-all duration-300 scale-95 md:scale-100">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4 border-b pb-2">
+                    <h3 class="text-xl font-bold text-red-800 flex items-center">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Partager le Programme
+                    </h3>
+                    <button id="closeShareModalBtn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <p class="text-center text-gray-700 mb-4 font-semibold">Scannez ce QR Code pour accéder au programme :</p>
+                <div id="qrcode" class="flex justify-center p-4 border-4 border-red-200 rounded-xl bg-white">
+                    <!-- Le QR Code (Canvas) sera généré ici -->
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-4 break-all italic">Lien: https://kaporalclems.github.io/Journ-e-QVT-Dsr_2025/</p>
+            </div>
+            <div class="p-4 bg-gray-50 rounded-b-xl">
+                <p class="text-xs text-gray-500 italic text-center">Compatible sur tous les smartphones.</p>
+            </div>
+        </div>
+    </div>
+
+
     <script>
+        // URL à encoder dans le QR code
+        const QR_CODE_URL = "https://kaporalclems.github.io/Journ-e-QVT-Dsr_2025/";
+        let qrcodeInstance = null; // Variable pour stocker l'instance du QR code
+
         document.addEventListener('DOMContentLoaded', () => {
             
             // --- 1. Animation de Révélation au Scroll (Intersection Observer) ---
@@ -406,6 +550,115 @@
             // Ligne 2 : "Édition de Fin d'Année" 
             // Démarrage : 3000ms (après que la Ligne 1 ait fini son tracé) | Remplissage : 1500ms après son propre tracé
             animateTitle('svg-title-2', 3000, 1500); 
+
+            // --- 3. Gestion de la Modal de Zoom (Détails du Programme) ---
+            const detailModal = document.getElementById('detailModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalTime = document.getElementById('modalTime');
+            const modalDetails = document.getElementById('modalDetails');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const clickableItems = document.querySelectorAll('.clickable-item');
+
+            // Fonction pour ouvrir la modal de détails
+            const openDetailModal = (time, title, details) => {
+                modalTime.textContent = time;
+                modalTitle.textContent = title;
+                // Utiliser innerHTML et remplacer les sauts de ligne pour le formatage dans la modal
+                modalDetails.innerHTML = details.replace(/\n/g, '<br>'); 
+                detailModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Empêche le scroll en arrière-plan
+            };
+
+            // Fonction pour fermer la modal de détails
+            const closeDetailModal = () => {
+                detailModal.classList.add('hidden');
+                document.body.style.overflow = ''; // Rétablit le scroll
+            };
+
+            // Attacher l'événement de clic à chaque élément du programme
+            clickableItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const time = item.dataset.time || 'Non spécifié';
+                    const title = item.dataset.title || 'Détails de l\'activité';
+                    const details = item.dataset.details || 'Aucune description détaillée disponible.';
+                    openDetailModal(time, title, details);
+                });
+            });
+
+            // Attacher les événements de fermeture de la modal de détails
+            closeModalBtn.addEventListener('click', closeDetailModal);
+            // Fermer en cliquant sur le fond (si le clic n'est pas sur le contenu de la modal)
+            detailModal.addEventListener('click', (e) => {
+                if (e.target === detailModal) {
+                    closeDetailModal();
+                }
+            });
+
+            // --- 4. Gestion de la Modal de Partage (QR Code) ---
+            const shareModal = document.getElementById('shareModal');
+            const openShareModalBtn = document.getElementById('openShareModalBtn');
+            const closeShareModalBtn = document.getElementById('closeShareModalBtn');
+
+            // Fonction pour générer le QR Code
+            const generateQRCode = () => {
+                const qrcodeContainer = document.getElementById('qrcode');
+                
+                // Si l'instance existe déjà, ne rien faire
+                if (qrcodeInstance) return;
+
+                // S'assurer que le conteneur est vide avant de créer
+                qrcodeContainer.innerHTML = ''; 
+
+                // Génération de la nouvelle instance
+                qrcodeInstance = new QRCode(qrcodeContainer, {
+                    text: QR_CODE_URL,
+                    width: 200,
+                    height: 200,
+                    colorDark : "#880000", // Rouge foncé
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            };
+
+            // Fonction pour ouvrir la modal de partage
+            const openShareModal = () => {
+                shareModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                // Génère le QR code seulement la première fois que la modale est ouverte
+                if (!qrcodeInstance) {
+                    // Délai pour s'assurer que la modale est visible et le DOM stable
+                    setTimeout(generateQRCode, 10); 
+                }
+            };
+
+            // Fonction pour fermer la modal de partage
+            const closeShareModal = () => {
+                shareModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            };
+
+            // Attacher l'événement de clic au bouton de partage
+            openShareModalBtn.addEventListener('click', openShareModal);
+            closeShareModalBtn.addEventListener('click', closeShareModal);
+            
+            // Fermer en cliquant sur le fond de la modal de partage
+            shareModal.addEventListener('click', (e) => {
+                if (e.target === shareModal) {
+                    closeShareModal();
+                }
+            });
+
+            // Fermer avec la touche ESC (applique aux deux modales)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (!detailModal.classList.contains('hidden')) {
+                        closeDetailModal();
+                    }
+                    if (!shareModal.classList.contains('hidden')) {
+                        closeShareModal();
+                    }
+                }
+            });
         });
     </script>
 </body>
