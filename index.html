@@ -218,6 +218,16 @@
         #unfolding-content > * {
             background-color: white; 
         }
+        
+        /* Style pour l'image dans la modale */
+        .modal-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-bottom: 1rem;
+            max-height: 250px; 
+        }
     </style>
 </head>
 <body class="p-4 sm:p-8">
@@ -249,7 +259,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.88 12.03 9.388 10.718 10.35 9.75a4.008 4.008 0 011.424-1.424c1.062-.39 2.14-.523 3.23-.423m-2.427 1.139a.75.75 0 00-1.06-1.06L6 18H3.75a.75.75 0 000 1.5h1.75a.75.75 0 00.56-.25L13.8 11.23a.75.75 0 00-.54-.23zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </button>
-            
+
             <!-- Titre SVG animé au chargement de la page -->
             <svg class="w-full h-auto z-10 relative" viewBox="0 0 800 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                 
@@ -402,11 +412,12 @@
                 <!-- Schedule Items -->
                 <div class="space-y-4">
 
-                    <!-- 8h30 – 9h30 : Petit déjeuner -->
+                    <!-- 8h30 – 9h30 : Petit déjeuner (avec image) -->
                     <div class="time-slot p-4 bg-gray-50 rounded-lg border-l-4 border-red-500 hover:bg-gray-100 transition duration-150 clickable-item cursor-pointer"
                         data-time="8h30 – 9h30" 
                         data-title="Petit déjeuner d'accueil" 
-                        data-details="Un moment d'échange convivial pour démarrer la journée tous ensemble avant le lancement des activités.">
+                        data-details="Un moment d'échange convivial pour démarrer la journée tous ensemble avant le lancement des activités."
+                        data-image="https://assets.afcdn.com/story/20190213/1332660_w5000h3750c1cx3557cy1546.jpg">
                         <div class="w-28 font-extrabold text-red-800 flex-shrink-0">8h30 – 9h30</div>
                         <div>
                             <p class="font-semibold text-lg flex items-center">
@@ -494,33 +505,35 @@
 
 
                     <!-- 11h20 – 12h00 : Cocktail de Noël -->
-                    <div class="time-slot p-4 bg-red-100 rounded-lg border-l-4 border-red-700 hover:bg-red-200 transition duration-150 clickable-item cursor-pointer"
-                        data-time="11h20 – 12h00"
-                        data-title="Atelier Cocktail de Noël (Collectif)"
-                        data-details="Découvrez l'art de la mixologie festive et préparez ensemble un cocktail (avec ou sans alcool) aux saveurs de Noël.">
-                        <div class="w-28 font-extrabold text-red-800 flex-shrink-0">11h20 – 12h00</div>
-                        <div>
-                            <p class="font-semibold text-lg flex items-center">
-                                <!-- Icône Cocktail -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-700" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22a7 7 0 0 0 7-7c0-3.87-3.87-7-7-7s-7 3.13-7 7a7 7 0 0 0 7 7z"/>
-                                    <path d="M12 15h.01"/>
-                                    <path d="M12 12V2"/>
-                                    <path d="M16 5l-4-3-4 3"/>
-                                </svg>
-                                Atelier Cocktail de Noël
-                            </p>
-                            <p class="text-sm text-red-700 italic">Collectif (40 min)</p>
-                        </div>
+                <div class="time-slot p-4 bg-red-100 rounded-lg border-l-4 border-red-700 hover:bg-red-200 transition duration-150 clickable-item cursor-pointer"
+                     data-time="11h20 – 12h00"
+                     data-title="Atelier Cocktail de Noël (Collectif)"
+                     data-details="Découvrez l'art de la mixologie festive et préparez ensemble un cocktail (avec ou sans alcool) aux saveurs de Noël."
+                     data-image="https://cocktailcorner.fr/wp-content/uploads/Photos_Cocktails/Daiquiri-classique.jpg">
+                    <div class="w-28 font-extrabold text-red-800 flex-shrink-0">11h20 – 12h00</div>
+                    <div>
+                        <p class="font-semibold text-lg flex items-center">
+                            <!-- Icône Cocktail -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-700" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22a7 7 0 0 0 7-7c0-3.87-3.87-7-7-7s-7 3.13-7 7a7 7 0 0 0 7 7z"/>
+                                <path d="M12 15h.01"/>
+                                <path d="M12 12V2"/>
+                                <path d="M16 5l-4-3-4 3"/>
+                            </svg>
+                            Atelier Cocktail de Noël
+                        </p>
+                        <p class="text-sm text-red-700 italic">Collectif (40 min)</p>
                     </div>
-                    <p class="text-xs text-center text-gray-400 italic">-- 5 min de pause --</p>
+                </div>
+                <p class="text-xs text-center text-gray-400 italic">-- 5 min de pause --</p>
 
 
-                    <!-- 12h00 – 14h00 : Déjeuner -->
+                    <!-- 12h00 – 14h00 : Déjeuner (avec image) -->
                     <div class="time-slot p-4 bg-gray-50 rounded-lg border-l-4 border-red-500 hover:bg-gray-100 transition duration-150 clickable-item cursor-pointer"
                         data-time="12h00 – 14h00"
                         data-title="Déjeuner de Fête"
-                        data-details="Un repas gourmand et convivial pour célébrer l'esprit de fin d'année, rythmé par l'ambiance musicale assurée par le Trio Métiss.">
+                        data-details="Un repas gourmand et convivial pour célébrer l'esprit de fin d'année, rythmé par l'ambiance musicale assurée par le Trio Métiss."
+                        data-image="https://scontent.frun6-1.fna.fbcdn.net/v/t39.30808-6/351510305_245117048206728_5072232179524293345_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=5b9XfSryxdkQ7kNvwH7yHN_&_nc_oc=Adnglye6F8XL-82ALtni3OfP9W8v2kSAPMiA86389FpzV0NmLs__iOlnF99CCdQv9wOkiR7gPRWUchGneavS0jW1&_nc_zt=23&_nc_ht=scontent.frun6-1.fna&_nc_gid=EnD3NRYqkULcHSI-_-A3pg&oh=00_AfkqDisLo5fcpNZHCpIGX0Z-dIMY800J2Enxz3qSKZnzAA&oe=694244A7">
                         <div class="w-28 font-extrabold text-red-800 flex-shrink-0">12h00 – 14h00</div>
                         <div>
                             <p class="font-semibold text-lg flex items-center">
@@ -537,11 +550,12 @@
                         </div>
                     </div>
 
-                    <!-- 14h00 – 16h00 : Après-midi récréative -->
+                    <!-- 14h00 – 16h00 : Après-midi récréative (avec image) -->
                     <div class="time-slot p-4 bg-blue-100 rounded-lg border-l-4 border-blue-600 hover:bg-blue-200 transition duration-150 clickable-item cursor-pointer"
                         data-time="14h00 – 16h00"
                         data-title="Après-midi Détente & Divertissement"
-                        data-details="Profitez de deux heures de loisirs : Karaoké, accès libre à la piscine (pensez à votre maillot!) et un Blind Test Musical pour tester vos connaissances.">
+                        data-details="Profitez de deux heures de loisirs : Karaoké, accès libre à la piscine (pensez à votre maillot!) et un Blind Test Musical pour tester vos connaissances."
+                        data-image="https://i.ytimg.com/vi/QkJKVrUAkq8/maxresdefault.jpg">
                         <div class="w-28 font-extrabold text-blue-800 flex-shrink-0">14h00 – 16h00</div>
                         <div>
                             <p class="font-semibold text-lg flex items-center">
@@ -666,6 +680,8 @@
                     </button>
                 </div>
                 <p id="modalTime" class="text-lg font-semibold text-gray-600 mb-3"></p>
+                <!-- Conteneur pour l'image -->
+                <div id="modalImageContainer"></div>
                 <p id="modalDetails" class="text-gray-700 whitespace-pre-wrap leading-relaxed"></p>
             </div>
             <div class="p-4 bg-gray-50 rounded-b-xl">
@@ -772,127 +788,134 @@
     <script>
         // URL à encoder dans le QR code
         const QR_CODE_URL = "https://kaporalclems.github.io/Journ-e-QVT-Dsr_2025/";
-        let qrcodeInstance = null; // Variable pour stocker l'instance du QR code
-
-        // Variables pour l'animation du courrier
-        let isUnfolded = false;
-        const unfoldButton = document.getElementById('unfold-button');
-        const unfoldingContent = document.getElementById('unfolding-content');
-        const unfoldIcon = document.getElementById('unfold-icon');
-
-
-        // --- Carousel Logic ---
-        const startCarousel = () => {
-            const track = document.getElementById('carouselTrack');
-            const dotsContainer = document.getElementById('carouselDots');
-            const slides = document.querySelectorAll('.carousel-slide');
-            const totalSlides = slides.length;
-            let currentIndex = 0;
-            const intervalTime = 5000; // 5 secondes par slide
-            let carouselInterval;
-
-            if (totalSlides === 0) return;
-
-            // 1. Création des points de navigation
-            slides.forEach((_, index) => {
-                const dot = document.createElement('button');
-                dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white', 'bg-opacity-50', 'hover:bg-opacity-80', 'transition', 'duration-300');
-                dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-                dot.addEventListener('click', () => {
-                    goToSlide(index);
-                    resetInterval();
-                });
-                dotsContainer.appendChild(dot);
-            });
-
-            const dots = dotsContainer.querySelectorAll('button');
-
-            // 2. Fonctions de Navigation
-            const updateDots = () => {
-                dots.forEach((dot, index) => {
-                    dot.classList.remove('bg-opacity-100');
-                    if (index === currentIndex) {
-                        dot.classList.add('bg-opacity-100');
-                    }
-                });
-            };
-
-            const goToSlide = (index) => {
-                if (index < 0) {
-                    currentIndex = totalSlides - 1;
-                } else if (index >= totalSlides) {
-                    currentIndex = 0;
-                } else {
-                    currentIndex = index;
-                }
-                const offset = -currentIndex * 100;
-                track.style.transform = `translateX(${offset}%)`;
-                updateDots();
-            };
-
-            const nextSlide = () => {
-                goToSlide(currentIndex + 1);
-            };
-
-            // 3. Logique d'Auto-play
-            const startInterval = () => {
-                carouselInterval = setInterval(nextSlide, intervalTime);
-            };
-
-            const resetInterval = () => {
-                clearInterval(carouselInterval);
-                startInterval();
-            };
-
-            // État initial
-            updateDots();
-            startInterval();
-        };
-
-        // --- Logic d'Ouverture/Fermeture du Courrier ---
-        const toggleUnfold = () => {
-            if (isUnfolded) {
-                // Fermer
-                unfoldingContent.classList.remove('unfolded');
-                unfoldButton.innerHTML = `
-                    <svg id="unfold-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                    Ouvrir le Programme Détaillé
-                `;
-                unfoldButton.classList.add('unfold-button-pulse');
-                unfoldButton.setAttribute('aria-expanded', 'false');
-
-            } else {
-                // Ouvrir
-                unfoldingContent.classList.add('unfolded');
-                unfoldButton.innerHTML = `
-                    <svg id="unfold-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-                    </svg>
-                    Fermer le Programme Détaillé
-                `;
-                unfoldButton.classList.remove('unfold-button-pulse');
-                unfoldButton.setAttribute('aria-expanded', 'true');
-            }
-
-            isUnfolded = !isUnfolded;
-        };
-
 
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 0. NOTE sur la lecture audio ---
+            // Le lecteur audio fonctionne via les contrôles natifs du navigateur.
+            
+            // --- Préparation des variables dans le scope ---
+            let qrcodeInstance = null; 
+            let isUnfolded = false;
+            
+            const unfoldButton = document.getElementById('unfold-button');
+            const unfoldingContent = document.getElementById('unfolding-content');
+            
+            // --- Carousel Logic ---
+            const startCarousel = () => {
+                const track = document.getElementById('carouselTrack');
+                const dotsContainer = document.getElementById('carouselDots');
+                const slides = document.querySelectorAll('.carousel-slide');
+                const totalSlides = slides.length;
+                let currentIndex = 0;
+                const intervalTime = 5000; // 5 secondes par slide
+                let carouselInterval;
+
+                if (totalSlides === 0) return;
+
+                // 1. Création des points de navigation
+                slides.forEach((_, index) => {
+                    const dot = document.createElement('button');
+                    dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white', 'bg-opacity-50', 'hover:bg-opacity-80', 'transition', 'duration-300');
+                    dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                    dot.addEventListener('click', () => {
+                        goToSlide(index);
+                        resetInterval();
+                    });
+                    dotsContainer.appendChild(dot);
+                });
+
+                const dots = dotsContainer.querySelectorAll('button');
+
+                // 2. Fonctions de Navigation
+                const updateDots = () => {
+                    dots.forEach((dot, index) => {
+                        dot.classList.remove('bg-opacity-100');
+                        if (index === currentIndex) {
+                            dot.classList.add('bg-opacity-100');
+                        }
+                    });
+                };
+
+                const goToSlide = (index) => {
+                    if (index < 0) {
+                        currentIndex = totalSlides - 1;
+                    } else if (index >= totalSlides) {
+                        currentIndex = 0;
+                    } else {
+                        currentIndex = index;
+                    }
+                    const offset = -currentIndex * 100;
+                    if(track) track.style.transform = `translateX(${offset}%)`;
+                    updateDots();
+                };
+
+                const nextSlide = () => {
+                    goToSlide(currentIndex + 1);
+                };
+
+                // 3. Logique d'Auto-play
+                const startInterval = () => {
+                    carouselInterval = setInterval(nextSlide, intervalTime);
+                };
+
+                const resetInterval = () => {
+                    clearInterval(carouselInterval);
+                    startInterval();
+                };
+
+                // État initial
+                updateDots();
+                startInterval();
+            };
             
             // Démarrage du Carousel
             startCarousel();
 
+
+            // --- Logic d'Ouverture/Fermeture du Courrier ---
+            const toggleUnfold = () => {
+                if (isUnfolded) {
+                    // Fermer
+                    if(unfoldingContent) unfoldingContent.classList.remove('unfolded');
+                    if(unfoldButton) {
+                        unfoldButton.innerHTML = `
+                            <svg id="unfold-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            Ouvrir le Programme Détaillé
+                        `;
+                        unfoldButton.classList.add('unfold-button-pulse');
+                        unfoldButton.setAttribute('aria-expanded', 'false');
+                    }
+
+                } else {
+                    // Ouvrir
+                    if(unfoldingContent) unfoldingContent.classList.add('unfolded');
+                    if(unfoldButton) {
+                        unfoldButton.innerHTML = `
+                            <svg id="unfold-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+                            </svg>
+                            Fermer le Programme Détaillé
+                        `;
+                        unfoldButton.classList.remove('unfold-button-pulse');
+                        unfoldButton.setAttribute('aria-expanded', 'true');
+                    }
+                }
+
+                isUnfolded = !isUnfolded;
+            };
+
             // Attachement de l'événement au bouton d'ouverture
-            unfoldButton.addEventListener('click', toggleUnfold);
-            unfoldButton.setAttribute('aria-controls', 'unfolding-content');
-            unfoldButton.setAttribute('aria-expanded', 'false');
+            if(unfoldButton) {
+                unfoldButton.addEventListener('click', toggleUnfold);
+                unfoldButton.setAttribute('aria-controls', 'unfolding-content');
+                unfoldButton.setAttribute('aria-expanded', 'false');
+            }
 
 
             // --- 1. Animation de Révélation au Scroll (Intersection Observer) ---
-            // N'observe que les éléments de la section d'introduction (non-dépliée)
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -917,7 +940,12 @@
                 const textPath = document.getElementById(id);
                 if (!textPath) return;
 
-                let length = textPath.getTotalLength ? textPath.getTotalLength() : 2000;
+                // Fallback safe check
+                let length = 2000;
+                try {
+                    if(textPath.getTotalLength) length = textPath.getTotalLength();
+                } catch(e) {}
+                
                 if (length === 0) length = 2000; 
 
                 textPath.style.strokeDasharray = length;
@@ -944,20 +972,44 @@
             const modalTitle = document.getElementById('modalTitle');
             const modalTime = document.getElementById('modalTime');
             const modalDetails = document.getElementById('modalDetails');
+            const modalImageContainer = document.getElementById('modalImageContainer'); 
             const closeModalBtn = document.getElementById('closeModalBtn');
             const clickableItems = document.querySelectorAll('.clickable-item');
 
-            const openDetailModal = (time, title, details) => {
-                modalTime.textContent = time;
-                modalTitle.textContent = title;
-                modalDetails.innerHTML = details.replace(/\n/g, '<br>'); 
-                detailModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; 
+            const openDetailModal = (time, title, details, imageURL) => {
+                if(modalTime) modalTime.textContent = time;
+                if(modalTitle) modalTitle.textContent = title;
+                if(modalDetails) modalDetails.innerHTML = details.replace(/\n/g, '<br>'); 
+                
+                // Gestion de l'image
+                if(modalImageContainer) {
+                    modalImageContainer.innerHTML = ''; // Nettoyage
+                    if (imageURL) {
+                        const img = document.createElement('img');
+                        img.src = imageURL;
+                        img.alt = `[Image de ${title}]`; 
+                        img.classList.add('modal-image');
+                        img.onerror = function() {
+                            this.onerror=null; 
+                            this.src='https://placehold.co/500x250/E91E63/FFFFFF?text=Image+indisponible';
+                            this.alt="[Image de remplacement : Image indisponible]";
+                        };
+                        modalImageContainer.appendChild(img);
+                    }
+                }
+
+                if(detailModal) {
+                    detailModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; 
+                }
             };
 
             const closeDetailModal = () => {
-                detailModal.classList.add('hidden');
-                document.body.style.overflow = ''; 
+                if(detailModal) {
+                    detailModal.classList.add('hidden');
+                    document.body.style.overflow = ''; 
+                }
+                if(modalImageContainer) modalImageContainer.innerHTML = '';
             };
 
             clickableItems.forEach(item => {
@@ -965,16 +1017,19 @@
                     const time = item.dataset.time || 'Non spécifié';
                     const title = item.dataset.title || 'Détails de l\'activité';
                     const details = item.dataset.details || 'Aucune description détaillée disponible.';
-                    openDetailModal(time, title, details);
+                    const imageURL = item.dataset.image || ''; 
+                    openDetailModal(time, title, details, imageURL);
                 });
             });
 
-            closeModalBtn.addEventListener('click', closeDetailModal);
-            detailModal.addEventListener('click', (e) => {
-                if (e.target === detailModal) {
-                    closeDetailModal();
-                }
-            });
+            if(closeModalBtn) closeModalBtn.addEventListener('click', closeDetailModal);
+            if(detailModal) {
+                detailModal.addEventListener('click', (e) => {
+                    if (e.target === detailModal) {
+                        closeDetailModal();
+                    }
+                });
+            }
 
             // --- 4. Gestion de la Modal de Partage (QR Code) ---
             const shareModal = document.getElementById('shareModal');
@@ -984,41 +1039,51 @@
             const generateQRCode = () => {
                 const qrcodeContainer = document.getElementById('qrcode');
                 
-                if (qrcodeInstance) return;
+                if (!qrcodeContainer || qrcodeInstance) return;
 
                 qrcodeContainer.innerHTML = ''; 
 
-                qrcodeInstance = new QRCode(qrcodeContainer, {
-                    text: QR_CODE_URL,
-                    width: 200,
-                    height: 200,
-                    colorDark : "#880000", 
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
-                });
+                try {
+                    qrcodeInstance = new QRCode(qrcodeContainer, {
+                        text: QR_CODE_URL,
+                        width: 200,
+                        height: 200,
+                        colorDark : "#880000", 
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                } catch(e) {
+                    console.error("Erreur QRCode", e);
+                }
             };
 
             const openShareModal = () => {
-                shareModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-                if (!qrcodeInstance) {
-                    setTimeout(generateQRCode, 10); 
+                if(shareModal) {
+                    shareModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    if (!qrcodeInstance) {
+                        setTimeout(generateQRCode, 10); 
+                    }
                 }
             };
 
             const closeShareModal = () => {
-                shareModal.classList.add('hidden');
-                document.body.style.overflow = '';
+                if(shareModal) {
+                    shareModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
             };
 
-            openShareModalBtn.addEventListener('click', openShareModal);
-            closeShareModalBtn.addEventListener('click', closeShareModal);
+            if(openShareModalBtn) openShareModalBtn.addEventListener('click', openShareModal);
+            if(closeShareModalBtn) closeShareModalBtn.addEventListener('click', closeShareModal);
             
-            shareModal.addEventListener('click', (e) => {
-                if (e.target === shareModal) {
-                    closeShareModal();
-                }
-            });
+            if(shareModal) {
+                shareModal.addEventListener('click', (e) => {
+                    if (e.target === shareModal) {
+                        closeShareModal();
+                    }
+                });
+            }
             
             // --- 5. Gestion de la Modal des Partenaires ---
             const partnersModal = document.getElementById('partnersModal');
@@ -1026,34 +1091,40 @@
             const closePartnersModalBtn = document.getElementById('closePartnersModalBtn');
 
             const openPartnersModal = () => {
-                partnersModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
+                if(partnersModal) {
+                    partnersModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
             };
 
             const closePartnersModal = () => {
-                partnersModal.classList.add('hidden');
-                document.body.style.overflow = '';
+                if(partnersModal) {
+                    partnersModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
             };
 
-            openPartnersModalBtn.addEventListener('click', openPartnersModal);
-            closePartnersModalBtn.addEventListener('click', closePartnersModal);
+            if(openPartnersModalBtn) openPartnersModalBtn.addEventListener('click', openPartnersModal);
+            if(closePartnersModalBtn) closePartnersModalBtn.addEventListener('click', closePartnersModal);
             
-            partnersModal.addEventListener('click', (e) => {
-                if (e.target === partnersModal) {
-                    closePartnersModal();
-                }
-            });
+            if(partnersModal) {
+                partnersModal.addEventListener('click', (e) => {
+                    if (e.target === partnersModal) {
+                        closePartnersModal();
+                    }
+                });
+            }
 
             // Fermer avec la touche ESC
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
-                    if (!detailModal.classList.contains('hidden')) {
+                    if (detailModal && !detailModal.classList.contains('hidden')) {
                         closeDetailModal();
                     }
-                    if (!shareModal.classList.contains('hidden')) {
+                    if (shareModal && !shareModal.classList.contains('hidden')) {
                         closeShareModal();
                     }
-                    if (!partnersModal.classList.contains('hidden')) {
+                    if (partnersModal && !partnersModal.classList.contains('hidden')) {
                         closePartnersModal();
                     }
                 }
